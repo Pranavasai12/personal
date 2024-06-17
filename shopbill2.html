@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Shop Bill</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .total-row {
+            font-weight: bold;
+        }
+        #searchBar {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        function updateTotal() {
+            const rows = document.querySelectorAll('tbody tr');
+            let total = 0;
+            rows.forEach(row => {
+                const price = parseFloat(row.querySelector('.price').innerText);
+                const quantity = parseInt(row.querySelector('.quantity input').value);
+                const itemTotal = price * quantity;
+                row.querySelector('.item-total').innerText = itemTotal.toFixed(2);
+                total += itemTotal;
+            });
+            document.getElementById('total').innerText = total.toFixed(2);
+        }
+
+        function filterItems() {
+            const filter = document.getElementById('searchBar').value.toUpperCase();
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const itemName = row.querySelector('td').innerText.toUpperCase();
+                if (itemName.includes(filter)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.quantity input').forEach(input => {
+                input.addEventListener('input', updateTotal);
+            });
+            document.getElementById('searchBar').addEventListener('input', filterItems);
+            updateTotal();
+        });
+    </script>
+</head>
+<body>
+
+    <h1>Grocery Shop Bill</h1>
+
+    <input type="text" id="searchBar" placeholder="Search for items...">
+
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Price ($)</th>
+                <th>Quantity</th>
+                <th>Total ($)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Apple</td>
+                <td class="price">0.50</td>
+                <td class="quantity"><input type="number" value="0" min="0"></td>
+                <td class="item-total">0.00</td>
+            </tr>
+            <tr>
+                <td>Banana</td>
+                <td class="price">0.30</td>
+                <td class="quantity"><input type="number" value="0" min="0"></td>
+                <td class="item-total">0.00</td>
+            </tr>
+            <tr>
+                <td>Orange</td>
+                <td class="price">0.70</td>
+                <td class="quantity"><input type="number" value="0" min="0"></td>
+                <td class="item-total">0.00</td>
+            </tr>
+            <tr>
+                <td>Grapes</td>
+                <td class="price">2.00</td>
+                <td class="quantity"><input type="number" value="0" min="0"></td>
+                <td class="item-total">0.00</td>
+            </tr>
+            <tr>
+                <td>Milk</td>
+                <td class="price">1.20</td>
+                <td class="quantity"><input type="number" value="0" min="0"></td>
+                <td class="item-total">0.00</td>
+            </tr>
+            <tr>
+                <td>Bread</td>
+                <td class="price">1.00</td>
+                <td class="quantity"><input type="number" value="0" min="0"></td>
+                <td class="item-total">0.00</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr class="total-row">
+                <td colspan="3">Total</td>
+                <td id="total">0.00</td>
+            </tr>
+        </tfoot>
+    </table>
+
+</body>
+</html>
